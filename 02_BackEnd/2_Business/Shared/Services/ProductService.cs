@@ -1,6 +1,5 @@
 using Domain.Entities;
 using Domain.Interfaces;
-using Microsoft.Extensions.Logging;
 using Shared.DTOs;
 
 namespace Shared.Services;
@@ -8,12 +7,10 @@ namespace Shared.Services;
 public class ProductService : IProductService
 {
     private readonly IUnitOfWork _unitOfWork;
-    private readonly ILogger<ProductService> _logger;
 
-    public ProductService(IUnitOfWork unitOfWork, ILogger<ProductService> logger)
+    public ProductService(IUnitOfWork unitOfWork)
     {
         _unitOfWork = unitOfWork;
-        _logger = logger;
     }
 
     public async Task<ApiResponse<ProductDto>> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
@@ -24,7 +21,6 @@ public class ProductService : IProductService
 
             if (product is null)
             {
-                _logger.LogWarning("Product with ID {ProductId} not found", id);
                 return ApiResponse<ProductDto>.ErrorResponse("Product not found");
             }
 
@@ -32,7 +28,6 @@ public class ProductService : IProductService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error retrieving product {ProductId}", id);
             return ApiResponse<ProductDto>.ErrorResponse("An error occurred while retrieving the product");
         }
     }
@@ -48,7 +43,6 @@ public class ProductService : IProductService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error retrieving all products");
             return ApiResponse<IEnumerable<ProductDto>>.ErrorResponse("An error occurred while retrieving products");
         }
     }
@@ -64,7 +58,6 @@ public class ProductService : IProductService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error retrieving products by category {Category}", category);
             return ApiResponse<IEnumerable<ProductDto>>.ErrorResponse("An error occurred while retrieving products");
         }
     }
@@ -80,7 +73,6 @@ public class ProductService : IProductService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error searching products with term {SearchTerm}", searchTerm);
             return ApiResponse<IEnumerable<ProductDto>>.ErrorResponse("An error occurred while searching products");
         }
     }
@@ -102,13 +94,10 @@ public class ProductService : IProductService
             await _unitOfWork.Products.AddAsync(product, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            _logger.LogInformation("Product {ProductName} created with ID {ProductId}", product.Name, product.Id);
-
             return ApiResponse<ProductDto>.SuccessResponse(MapToDto(product), "Product created successfully");
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error creating product {ProductName}", dto.Name);
             return ApiResponse<ProductDto>.ErrorResponse("An error occurred while creating the product");
         }
     }
@@ -121,7 +110,6 @@ public class ProductService : IProductService
 
             if (product is null)
             {
-                _logger.LogWarning("Product with ID {ProductId} not found for update", id);
                 return ApiResponse<ProductDto>.ErrorResponse("Product not found");
             }
 
@@ -137,13 +125,10 @@ public class ProductService : IProductService
             await _unitOfWork.Products.UpdateAsync(product, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            _logger.LogInformation("Product {ProductId} updated successfully", id);
-
             return ApiResponse<ProductDto>.SuccessResponse(MapToDto(product), "Product updated successfully");
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error updating product {ProductId}", id);
             return ApiResponse<ProductDto>.ErrorResponse("An error occurred while updating the product");
         }
     }
@@ -156,20 +141,17 @@ public class ProductService : IProductService
 
             if (!exists)
             {
-                _logger.LogWarning("Product with ID {ProductId} not found for deletion", id);
                 return ApiResponse<object>.ErrorResponse("Product not found");
             }
 
             await _unitOfWork.Products.DeleteAsync(id, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            _logger.LogInformation("Product {ProductId} deleted successfully", id);
 
             return ApiResponse<object>.SuccessResponse(null!, "Product deleted successfully");
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error deleting product {ProductId}", id);
             return ApiResponse<object>.ErrorResponse("An error occurred while deleting the product");
         }
     }
@@ -182,7 +164,6 @@ public class ProductService : IProductService
 
             if (product is null)
             {
-                _logger.LogWarning("Product with ID {ProductId} not found for stock update", id);
                 return ApiResponse<ProductDto>.ErrorResponse("Product not found");
             }
 
@@ -191,18 +172,14 @@ public class ProductService : IProductService
             await _unitOfWork.Products.UpdateAsync(product, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-            _logger.LogInformation("Stock for product {ProductId} updated by {Quantity}", id, dto.Quantity);
-
             return ApiResponse<ProductDto>.SuccessResponse(MapToDto(product), "Stock updated successfully");
         }
         catch (InvalidOperationException ex)
         {
-            _logger.LogWarning(ex, "Invalid stock operation for product {ProductId}", id);
             return ApiResponse<ProductDto>.ErrorResponse(ex.Message);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error updating stock for product {ProductId}", id);
             return ApiResponse<ProductDto>.ErrorResponse("An error occurred while updating stock");
         }
     }

@@ -1,6 +1,7 @@
 ﻿namespace WebApi.Configurations
 {
-    public class ConfigWebApiLogs
+    public static class ConfigWebApiLogs
     {
+
     }
 }

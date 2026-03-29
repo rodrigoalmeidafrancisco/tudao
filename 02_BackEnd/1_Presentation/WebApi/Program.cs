@@ -16,7 +16,10 @@ Dependencies.Start(builder.Services);
 builder.Initializer();
 
 //Configura a documentação da API
-builder.AddApiDocumentation();
+builder.AddApiDocumentationSwagger();
+
+//Configura a autenticação da API (ex: JWT, OAuth, etc.)
+builder.AddAuthentication();
 
 #endregion Configurações WebApllicationBuilder
 
@@ -28,7 +31,7 @@ WebApplication app = builder.Build();
 app.AddGlobalResponses();
 
 //Expõe a documentação OpenAPI em /openapi/v1.json (apenas em desenvolvimento)
-app.UseApiDocumentation();
+app.UseApiDocumentationSwagger();
 
 //Inicializa as configurações do WebApi (middlewares, endpoints, etc.)
 app.Initializer();

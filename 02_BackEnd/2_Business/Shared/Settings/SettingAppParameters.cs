@@ -8,6 +8,7 @@
             Proxy = new SettingAppParametersProxy();
         }
 
+        public string KeyToken { get; set; } = "CthXvnuPMRtN9mWt2dpU5TrUaG6Z4MmSdYn8E/vTcpTNKl3SRT+gn5GwUgv/ptiqXEozblc/v3LdfxRgKFhbgg==";
         public List<SettingAppParametersPolicies> Policies { get; set; }
         public SettingAppParametersProxy Proxy { get; set; }
     }
