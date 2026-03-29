@@ -1,0 +1,15 @@
+<Solution>
+  <Folder Name="/1_Presentation/">
+    <Project Path="1_Presentation/WebApi/WebApi.csproj" />
+  </Folder>
+  <Folder Name="/2_Business/">
+    <Project Path="2_Business/Domain/Domain.csproj" Id="13368fb1-3f7a-4eff-a77d-db7670d9bd3b" />
+    <Project Path="2_Business/Shared/Shared.csproj" Id="a0914619-2578-4723-912d-67f99a0d5ea3" />
+  </Folder>
+  <Folder Name="/3_Infrastructure/">
+    <Project Path="3_Infrastructure/Data/Data.csproj" Id="8019c513-6094-4b2b-baa0-f702fb784254" />
+  </Folder>
+  <Folder Name="/4_TestUnit/">
+    <Project Path="4_TestUnit/TestProject/TestProject.csproj" Id="66c8fc45-f138-4849-a4ea-0ab0d3362635" />
+  </Folder>
+</Solution>
