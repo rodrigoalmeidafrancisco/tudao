@@ -1,29 +1,39 @@
-using WebApi.Extensions;
-using WebApi.Middleware;
+using InversionOfControl;
+using Shared.Settings;
+using WebApi.Configurations;
 
-var builder = WebApplication.CreateBuilder(args);
+#region Configurações WebApllicationBuilder
 
-builder.Services.AddControllers();
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddApplicationServices(builder.Configuration);
-builder.Services.AddApiDocumentation();
-builder.Services.AddCorsPolicy();
+//Obtém as configurações do appsettings.json e do ambiente
+SettingApp.Start(builder.Configuration, builder.Environment.WebRootPath);
 
-var app = builder.Build();
+//Inicializa as configurações do IOC
+Dependencies.Start(builder.Services);
 
-app.UseGlobalExceptionHandler();
+//Inicializa as configurações do WebApi
+builder.Initializer();
 
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+//Configura a documentação da API
+builder.AddApiDocumentation();
 
-app.UseHttpsRedirection();
+#endregion Configurações WebApllicationBuilder
 
-app.UseCors("AllowAll");
+#region Configurações WebApplication
 
-app.UseAuthorization();
+WebApplication app = builder.Build();
 
-app.MapControllers();
+//Configura as repostas globais da API (ex: tratamento de erros, formatação de respostas, etc.)
+app.AddGlobalResponses();
 
-app.Run();
+//Expõe a documentação OpenAPI em /openapi/v1.json (apenas em desenvolvimento)
+app.UseApiDocumentation();
+
+//Inicializa as configurações do WebApi (middlewares, endpoints, etc.)
+app.Initializer();
+
+#endregion Configurações WebApplication
+
+//Inicia a aplicação em modo assíncrono
+await app.RunAsync();

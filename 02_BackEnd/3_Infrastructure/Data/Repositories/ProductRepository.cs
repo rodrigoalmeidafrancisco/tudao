@@ -7,7 +7,7 @@ namespace Data.Repositories;
 
 public class ProductRepository : Repository<Product>, IProductRepository
 {
-    public ProductRepository(ApplicationDbContext context) : base(context)
+    public ProductRepository(DefaultContext context) : base(context)
     {
     }
 

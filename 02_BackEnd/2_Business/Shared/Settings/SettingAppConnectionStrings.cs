@@ -2,6 +2,6 @@
 {
     public class SettingAppConnectionStrings
     {
-        public string AutenticacaoTJSP { get; set; }
+        public string Default { get; set; }
     }
 }

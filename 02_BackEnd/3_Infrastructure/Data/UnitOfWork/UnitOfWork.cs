@@ -7,17 +7,16 @@ namespace Data.UnitOfWork;
 
 public class UnitOfWork : IUnitOfWork
 {
-    private readonly ApplicationDbContext _context;
+    private readonly DefaultContext _context;
     private IDbContextTransaction _transaction;
     private IProductRepository _products;
 
-    public UnitOfWork(ApplicationDbContext context)
+    public UnitOfWork(DefaultContext context)
     {
         _context = context;
     }
 
-    public IProductRepository Products =>
-        _products ??= new ProductRepository(_context);
+    public IProductRepository Products => _products ??= new ProductRepository(_context);
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
