@@ -21,6 +21,9 @@ builder.AddApiDocumentationSwagger();
 //Configura a autenticação da API (ex: JWT, OAuth, etc.)
 builder.AddAuthentication();
 
+//Configura os HealthChecks da API e do banco de dados
+builder.AddHealthChecks();
+
 #endregion Configurações WebApllicationBuilder
 
 #region Configurações WebApplication
@@ -35,6 +38,9 @@ app.UseApiDocumentationSwagger();
 
 //Inicializa as configurações do WebApi (middlewares, endpoints, etc.)
 app.Initializer();
+
+//Mapeia os endpoints de HealthCheck (/health e /health-sql)
+app.UseHealthChecks();
 
 #endregion Configurações WebApplication
 
