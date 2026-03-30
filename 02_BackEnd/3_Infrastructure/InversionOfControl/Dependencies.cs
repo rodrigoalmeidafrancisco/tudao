@@ -4,6 +4,7 @@ using Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Shared.Services;
 using Shared.Settings;
 
 namespace InversionOfControl
@@ -35,7 +36,7 @@ namespace InversionOfControl
 
         private static void Domain(IServiceCollection services)
         {
-            //services.AddScoped<XXX, XXX>();
+            services.AddScoped<IProductService, ProductService>();
         }
 
         private static void DataRepositories(IServiceCollection services)

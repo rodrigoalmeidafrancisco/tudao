@@ -30,6 +30,8 @@ public class ProductsController : ControllerBase
     [ProducesResponseType(typeof(ApiResponse<IEnumerable<ProductDto>>), StatusCodes.Status200OK)]
     public async Task<ActionResult<ApiResponse<IEnumerable<ProductDto>>>> GetAllAsync(CancellationToken cancellationToken)
     {
+        throw new Exception("TEste");
+
         var response = await _productService.GetAllAsync(cancellationToken);
         return Ok(response);
     }

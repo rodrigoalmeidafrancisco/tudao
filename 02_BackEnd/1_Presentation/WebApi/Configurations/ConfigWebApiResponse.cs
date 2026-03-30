@@ -22,6 +22,14 @@ namespace WebApi.Configurations
                     // Processa a resposta apenas se uma exceção foi de fato capturada
                     if (exception != null)
                     {
+                        // Gera um identificador único para rastreabilidade do erro no banco de logs
+                        var errorId = Guid.NewGuid();
+
+                        // Obtém o logger via injeção de dependência e registra o erro no Serilog (salvo no banco de dados)
+                        var loggerFactory = context.RequestServices.GetRequiredService<ILoggerFactory>();
+                        var logger = loggerFactory.CreateLogger("WebApi.Errors");
+                        logger.LogError(exception, "Unhandled exception [ErrorId: {ErrorId}] at {Path}", errorId, context.Request.Path);
+
                         // Define o status HTTP 500 (Internal Server Error) na resposta
                         context.Response.StatusCode = StatusCodes.Status500InternalServerError;
                         // Define o tipo de conteúdo da resposta como JSON
@@ -32,6 +40,8 @@ namespace WebApi.Configurations
                         {
                             // Propaga o código de status 500 no corpo da resposta
                             StatusCode = StatusCodes.Status500InternalServerError,
+                            // Retorna o ID do erro gravado no banco de logs para rastreabilidade
+                            ErrorId = errorId,
                             // Mensagem genérica de erro com timestamp UTC para rastreabilidade
                             Message = $"[{DateTime.UtcNow}] Ocorreu um erro interno no processamento da requisição.",
                             // Registra o caminho da requisição que gerou o erro

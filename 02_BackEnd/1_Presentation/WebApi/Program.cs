@@ -24,6 +24,9 @@ builder.AddAuthentication();
 //Configura os HealthChecks da API e do banco de dados
 builder.AddHealthChecks();
 
+//Configura o Serilog como provedor de logs (console + banco de dados)
+builder.AddLogs();
+
 #endregion Configurações WebApllicationBuilder
 
 #region Configurações WebApplication

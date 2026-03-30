@@ -20,9 +20,6 @@ namespace WebApi.Configurations
                 // Configura a integração com IIS
                 builder.WebHost.UseIISIntegration();
 
-                // Remove provedores de log padrão e adiciona apenas o console
-                builder.Logging.ClearProviders().AddConsole();
-
                 // Verifica se o proxy está habilitado nas configurações
                 if (SettingApp.Parameters.Proxy.Enable)
                 {
