@@ -1,6 +1,16 @@
 <Solution>
-  <Folder Name="/1_Presentation/" />
-  <Folder Name="/2_Business/" />
-  <Folder Name="/3_Infrastructure/" />
-  <Folder Name="/4_TestUnit/" />
+  <Folder Name="/1_Presentation/">
+    <Project Path="1_Presentation/WebApi/WebApi.csproj" Id="ccd651f2-8e3e-46a5-8430-71806d56eeb8" />
+  </Folder>
+  <Folder Name="/2_Business/">
+    <Project Path="2_Business/Domain/Domain.csproj" Id="7e9e2d0e-c4ac-4748-b8a0-3a78ff7a6236" />
+    <Project Path="2_Business/Shared/Shared.csproj" Id="8654cb88-1dcf-44b2-a416-8f5bb3b143b4" />
+  </Folder>
+  <Folder Name="/3_Infrastructure/">
+    <Project Path="3_Infrastructure/Data/Data.csproj" Id="384adde0-f2bf-4abc-8904-5cf531f26180" />
+    <Project Path="3_Infrastructure/InversionOfControl/InversionOfControl.csproj" Id="3a1fb9c7-41a5-4a01-83e8-30eb738a33f6" />
+  </Folder>
+  <Folder Name="/4_TestUnit/">
+    <Project Path="4_TestUnit/TestProject/TestProject.csproj" Id="4a991ece-2a47-454f-ba3d-6dd9d6c4ed53" />
+  </Folder>
 </Solution>
