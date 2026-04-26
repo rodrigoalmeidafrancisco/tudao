@@ -1,1 +1,6 @@
-<Solution />
+<Solution>
+  <Project Path="Tudao/Tudao.sqlproj" Id="7e4f2b8f-e1ca-48f3-91dc-fd28758b4676">
+    <Build />
+    <Deploy />
+  </Project>
+</Solution>

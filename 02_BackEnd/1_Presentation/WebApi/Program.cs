@@ -1,23 +1,32 @@
-var builder = WebApplication.CreateBuilder(args);
+#region WebApplicationBuilder
 
-// Add services to the container.
+using Shared.Settings;
+using WebApi.Configurations;
 
-builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-var app = builder.Build();
+// Obtém as configurações do appsettings.json e do ambiente, e as disponibiliza para a aplicação.
+SettingApp.Start(builder.Configuration, builder.Environment.WebRootPath);
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.MapOpenApi();
-}
+// Método de extensão para configurar o WebApplicationBuilder
+builder.AddConfigWebApi();
 
-app.UseHttpsRedirection();
+// Método de extensão para configurar o Swagger, como documentação da API, UI, etc.
+builder.AddConfigSwagger();
 
-app.UseAuthorization();
+#endregion WebApplicationBuilder
 
-app.MapControllers();
+#region WebApplication
 
-app.Run();
+WebApplication app = builder.Build();
+
+// Método de extensão para configurar o WebApplication, como middlewares, rotas, etc.
+app.UseConfigWebApi();
+
+// Método de extensão para configurar o Swagger, como middlewares, rotas, etc.
+app.UseConfigSwagger();
+
+
+#endregion WebApplication
+
+await app.RunAsync();
