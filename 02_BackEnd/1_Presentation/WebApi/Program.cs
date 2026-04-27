@@ -11,6 +11,9 @@ SettingApp.Start(builder.Configuration, builder.Environment.WebRootPath);
 // Método de extensão para configurar o WebApplicationBuilder
 builder.AddConfigWebApi();
 
+// Método de extensão para configurar a autenticação, como JWT, políticas, etc.
+builder.AddConfigAuthentication();
+
 // Método de extensão para configurar o Swagger, como documentação da API, UI, etc.
 builder.AddConfigSwagger();
 
