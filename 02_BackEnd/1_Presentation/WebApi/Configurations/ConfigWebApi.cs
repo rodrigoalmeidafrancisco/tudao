@@ -34,7 +34,10 @@ namespace WebApi.Configurations
                 }
 
                 // Configura os parâmetros do System.Text.Json para o retorno da API
-                builder.Services.AddControllers().AddJsonOptions(options =>
+                builder.Services.AddControllers(options =>
+                {
+                    options.Filters.Add(new ProducesAttribute("application/json"));
+                }).AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
                     options.JsonSerializerOptions.WriteIndented = true;
